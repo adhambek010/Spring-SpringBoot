@@ -1,13 +1,5 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>List Todos Page</title>
-    <link href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
+<%@include file="common/header.jspf"%>
+<%@include file="common/navigation.jspf"%>
 <div class="container">
     <div class="mt-3">
         <h1>Welcome</h1>
@@ -17,21 +9,21 @@
         <table class="table">
             <thead>
             <tr>
-                <th>ID</th>
-                <th>Name</th>
                 <th>Description</th>
                 <th>Target Date</th>
                 <th>Is Done?</th>
+                <th></th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
             <c:forEach items="${todos}" var="todo">
                 <tr>
-                    <td>${todo.id}</td>
-                    <td>${todo.userName}</td>
                     <td>${todo.description}</td>
                     <td>${todo.targetDate}</td>
                     <td>${todo.done}</td>
+                    <td><a href="delete-todo?id=${todo.id}" class="btn btn-warning">Delete</a></td>
+                    <td><a href="update-todo?id=${todo.id}" class="btn btn-success">Update</a></td>
                 </tr>
             </c:forEach>
             </tbody>
@@ -39,7 +31,4 @@
         <a href="add-todo" class="btn btn-success">Add Todo</a>
     </div>
 </div>
-<script src="/webjars/bootstrap/5.3.3/js/bootstrap.min.js"></script>
-<script src="/webjars/bootstrap/5.3.3/js/bootstrap.min.js"></script>
-</body>
-</html>
+<%@include file="common/footer.jspf"%>

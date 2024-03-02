@@ -1,0 +1,8 @@
+insert into todo(ID, USERNAME, DESCRIPTION, TARGET_DATE, DONE)
+VALUES (1001, 'Adham', 'Get AWS Certified', CURRENT_DATE(), FALSE);
+insert into todo(ID, USERNAME, DESCRIPTION, TARGET_DATE, DONE)
+VALUES (1002, 'Adham', 'Get Azure Certified', CURRENT_DATE(), FALSE);
+insert into todo(ID, USERNAME, DESCRIPTION, TARGET_DATE, DONE)
+VALUES (1003, 'Admin', 'Get GCP Certified', CURRENT_DATE(), FALSE);
+insert into todo(ID, USERNAME, DESCRIPTION, TARGET_DATE, DONE)
+VALUES (1004, 'Adham', 'Learn DevOps', CURRENT_DATE(), FALSE);
