@@ -17,4 +17,6 @@ public class CurrencyConversion {
     private BigDecimal conversionMultiple;
     private BigDecimal totalCalculatedAmount;
     private String environment;
+    
+    
 }

@@ -10,13 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/currency-exchange/from")
 @RequiredArgsConstructor
 public class CurrencyExchangeController {
     private final Environment environment;
     private final CurrencyExchangeRepository currencyExchangeRepository;
 
-    @GetMapping("{from}/to/{to}")
+    @GetMapping("/currency-exchange/from/{from}/to/{to}")
     public CurrencyExchange retrieveCurrencyExchange(@PathVariable String from, @PathVariable String to) {
         var exchange = currencyExchangeRepository.findByFromAndTo(from, to);
         if (exchange == null) {

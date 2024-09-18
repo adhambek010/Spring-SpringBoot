@@ -1,4 +1,4 @@
-package com.example.microservices.limitsservice.controller.bean;
+package com.example.microservices.limitsservice.bean;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

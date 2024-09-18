@@ -1,0 +1,5 @@
+insert into role_entity(user_role) values ('TEACHER')
+insert into role_entity(user_role) values ('ADMIN')
+insert into role_entity(user_role) values ('STUDENT')
+insert into role_entity(user_role) values ('DEKAN')
+insert into role_entity(user_role) values ('DATSENT')
