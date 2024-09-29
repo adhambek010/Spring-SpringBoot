@@ -1,5 +1,6 @@
 package com.learning.microservise.restful_web_services.socialmedia.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.learning.microservise.restful_web_services.socialmedia.post.Post;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Past;
@@ -23,9 +24,7 @@ public class User {
     private String name;
     @Past
     private LocalDate birthdate;
-    @OneToMany
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Post> posts;
-
-    public User(int i, String adam, LocalDate localDate) {
-    }
 }
