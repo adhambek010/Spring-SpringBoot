@@ -1,6 +1,8 @@
 package com.rest.webservices.restful_web_services.social_media.contollers;
 
+import com.rest.webservices.restful_web_services.social_media.dao.PostRepository;
 import com.rest.webservices.restful_web_services.social_media.dao.UserRepository;
+import com.rest.webservices.restful_web_services.social_media.exception.PostNotFoundException;
 import com.rest.webservices.restful_web_services.social_media.exception.UserNotFoundException;
 import com.rest.webservices.restful_web_services.social_media.models.Post;
 import com.rest.webservices.restful_web_services.social_media.models.User;
@@ -18,17 +20,13 @@ import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
-public class UserController {
-    private final UserRepository repository;
+public class UserJpaResource {
+    private final UserRepository userRepository;
+    private final PostRepository postRepository;
 
     @GetMapping("/users")
     public List<User> retrieveAllUsers() {
-        return repository.findAll();
-    }
-
-    @GetMapping("/users/posts")
-    public List<Post> retrieveAllPosts() {
-        return repository.findAllPosts();
+        return userRepository.findAll();
     }
 
     @GetMapping("/users/{id}")
@@ -42,14 +40,8 @@ public class UserController {
         return model;
     }
 
-    @GetMapping("/users/{id}/posts")
-    public List<Post> retrieveAllPosts(@PathVariable Integer id) {
-        User user = getUser(id);
-        return user.getPosts();
-    }
-
     private User getUser(Integer id) {
-        Optional<User> user = repository.findById(id);
+        Optional<User> user = userRepository.findById(id);
         if (user.isEmpty()) {
             throw new UserNotFoundException("User with id " + id + " not found");
         }
@@ -60,14 +52,64 @@ public class UserController {
     public void deleteUser(@PathVariable Integer id) {
         User user = getUser(id);
 
-        repository.deleteById(user.getId());
+        userRepository.deleteById(user.getId());
     }
 
     @PostMapping("/users")
     public ResponseEntity<Object> createUser(@Valid @RequestBody User user) {
-        User savedUser = repository.save(user);
+        User savedUser = userRepository.save(user);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(savedUser.getId()).toUri();
         return ResponseEntity.created(location).build();
     }
+
+    //Post
+    @GetMapping("/users/posts")
+    public List<Post> retrieveAllPosts() {
+        return postRepository.findAll();
+    }
+
+    @GetMapping("/users/{id}/posts")
+    public List<Post> retrieveAllPosts(@PathVariable Integer id) {
+        User user = getUser(id);
+        return user.getPosts();
+    }
+
+    @GetMapping("/users/{uId}/posts/{id}")
+    public EntityModel<Post> retrievePost(@PathVariable("id") Integer postId,
+                                          @PathVariable("uId") Integer userId) {
+        EntityModel<Post> model = EntityModel.of(getPost(postId));
+
+        WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder
+                .linkTo(WebMvcLinkBuilder
+                        .methodOn(this.getClass())
+                        .retrievePost(postId, userId));
+
+        model.add(linkBuilder.withSelfRel());
+        return model;
+    }
+
+    private Post getPost(Integer id) {
+        Optional<Post> post = postRepository.findById(id);
+        if (post.isEmpty()) {
+            throw new PostNotFoundException("Post with id " + id + " not found");
+        }
+        return post.get();
+    }
+
+    @PostMapping("/users/{id}/posts")
+    public ResponseEntity<Object> createPost(@PathVariable Integer id,
+                                             @Valid @RequestBody Post post) {
+        User savedUser = getUser(id);
+        post.setUser(savedUser);
+        Post savedPost = postRepository.save(post);
+
+        URI location = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/users/{userId}/posts/{postId}")
+                .buildAndExpand(id, savedPost.getId())
+                .toUri();
+
+        return ResponseEntity.created(location).build();
+    }
+
 }
