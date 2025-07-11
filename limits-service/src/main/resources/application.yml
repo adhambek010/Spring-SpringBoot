@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: "limits-service"
+  config:
+    import: "optional:configserver:http://127.0.0.1:8888"
+  profiles:
+    active: qa
+  cloud:
+    config:
+      profile: dev
+#      name: spring-cloud-config-server
+
+limits-service:
+  minimum: 2
+  maximum: 998
