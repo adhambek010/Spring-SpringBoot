@@ -1,4 +1,4 @@
-package com.leaning.microservices.currency_conversion_service.database.entities;
+package com.leaning.microservices.currency_conversion_service.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,11 +10,11 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CurrencyConversion {
-    private Long id;
+    private int id;
     private String from;
     private String to;
-    private BigDecimal quantity;
     private BigDecimal conversionMultiple;
+    private BigDecimal quantity;
     private BigDecimal totalCalculatedAmount;
     private String environment;
 }

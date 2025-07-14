@@ -1,8 +1,8 @@
 package com.leaning.microservices.currency_conversion_service.controllers;
 
-import com.leaning.microservices.currency_conversion_service.CurrencyExchangeProxy;
-import com.leaning.microservices.currency_conversion_service.database.entities.CurrencyConversion;
+import com.leaning.microservices.currency_conversion_service.entities.CurrencyConversion;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,39 +15,45 @@ import java.util.HashMap;
 @RestController
 @RequiredArgsConstructor
 public class CurrencyConversionController {
+
+    private final Environment environment;
     private final CurrencyExchangeProxy proxy;
 
     @GetMapping("/currency-conversion/from/{from}/to/{to}/quantity/{quantity}")
-    public CurrencyConversion getCurrency(@PathVariable String from,
-                                          @PathVariable String to,
-                                          @PathVariable BigDecimal quantity) {
+    public CurrencyConversion calulateCurrencyConversion(
+            @PathVariable String from, @PathVariable String to,
+            @PathVariable BigDecimal quantity){
 
-        HashMap<String, String> uriVariables = new HashMap<>();
+        HashMap<String, String > uriVariables = new HashMap<>();
         uriVariables.put("from", from);
         uriVariables.put("to", to);
-        ResponseEntity<CurrencyConversion> responseEntity = new RestTemplate().getForEntity("http://127.0.0.1:8000/currency-exchange/form/{from}/to/{to}",
+        ResponseEntity<CurrencyConversion> response = new RestTemplate().getForEntity("http://127.0.0.1:8000/currency-exchange/from/{from}/to/{to}",
                 CurrencyConversion.class, uriVariables);
 
-        CurrencyConversion currencyConversion = responseEntity.getBody();
-
-        return new CurrencyConversion(currencyConversion.getId(), currencyConversion.getFrom(),
-                currencyConversion.getTo(), quantity, currencyConversion.getConversionMultiple(),
+        String port = environment.getProperty("local.server.port");
+        CurrencyConversion currencyConversion = response.getBody();
+        if (currencyConversion == null){
+            throw new RuntimeException("Currency Conversion Not Found");
+        }
+        return new CurrencyConversion(currencyConversion.getId(), from, to, quantity,
+                currencyConversion.getConversionMultiple(),
                 quantity.multiply(currencyConversion.getConversionMultiple()),
-                currencyConversion.getEnvironment() + " rest template");
+                port);
     }
 
     @GetMapping("/currency-conversion-feign/from/{from}/to/{to}/quantity/{quantity}")
-    public CurrencyConversion getCurrencyFeign(@PathVariable String from,
-                                          @PathVariable String to,
-                                          @PathVariable BigDecimal quantity) {
+    public CurrencyConversion calculateCurrencyConversionFeign(
+            @PathVariable String from, @PathVariable String to,
+            @PathVariable BigDecimal quantity){
+        String port = environment.getProperty("local.server.port");
 
+        CurrencyConversion  currencyConversion = proxy.getCurrencyConversion(from, to);
 
-        CurrencyConversion currencyConversion = proxy.retrieveExchangeValue(from, to);
-
-        return new CurrencyConversion(currencyConversion.getId(), currencyConversion.getFrom(),
-                currencyConversion.getTo(), quantity, currencyConversion.getConversionMultiple(),
+        return new CurrencyConversion(currencyConversion.getId(), from, to, quantity,
+                currencyConversion.getConversionMultiple(),
                 quantity.multiply(currencyConversion.getConversionMultiple()),
-                currencyConversion.getEnvironment() + " feign");
+                port);
+        //http://127.0.0.1:8000/currency-exchane/from/PLN/to/UZS
+        //http://127.0.0.1:8000/currency-exchange/from/PLN/to/UZS
     }
-
 }

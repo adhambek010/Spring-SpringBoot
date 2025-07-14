@@ -1,10 +1,4 @@
-package com.leaning.microservices.currency_exchange_service.database.repository;
+package com.leaning.microservices.currency_exchange_service.database.entities;
 
-import com.leaning.microservices.currency_exchange_service.database.entities.CurrencyExchange;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-public interface CurrencyExchangeRepository
-        extends JpaRepository<CurrencyExchange, Long> {
-
-    CurrencyExchange findByFromAndTo(String from, String to);
+public class CurrencyExchangeRepository {
 }
