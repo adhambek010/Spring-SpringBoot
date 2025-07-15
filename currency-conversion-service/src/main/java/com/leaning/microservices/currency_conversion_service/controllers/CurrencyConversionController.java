@@ -53,7 +53,5 @@ public class CurrencyConversionController {
                 currencyConversion.getConversionMultiple(),
                 quantity.multiply(currencyConversion.getConversionMultiple()),
                 port);
-        //http://127.0.0.1:8000/currency-exchane/from/PLN/to/UZS
-        //http://127.0.0.1:8000/currency-exchange/from/PLN/to/UZS
     }
 }

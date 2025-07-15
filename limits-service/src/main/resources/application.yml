@@ -4,7 +4,7 @@ spring:
   config:
     import: "optional:configserver:http://127.0.0.1:8888"
   profiles:
-    active: qa
+    active: dev
   cloud:
     config:
       profile: dev
