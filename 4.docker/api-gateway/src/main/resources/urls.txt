@@ -1,0 +1,55 @@
+CURRENCY-EXCHANGE
+http://127.0.0.1:8000/currency-exchange/from/PLN/to/UZS
+http://127.0.0.1:8000/currency-exchange/from/USD/to/INR
+http://127.0.0.1:8000/currency-exchange/from/USD/to/PLN
+http://127.0.0.1:8000/currency-exchange/from/EURO/to/PLN
+
+CURRENCY-CONVERSION
+http://127.0.0.1:8100/currency-conversion/from/PLN/to/UZS/quantity/50
+http://127.0.0.1:8100/currency-conversion/from/USD/to/INR/quantity/50
+http://127.0.0.1:8100/currency-conversion/from/USD/to/PLN/quantity/50
+http://127.0.0.1:8100/currency-conversion/from/EURO/to/PLN/quantity/50
+
+CURRENCY-CONVERSION-FEIGN
+http://127.0.0.1:8100/currency-conversion-feign/from/PLN/to/UZS/quantity/50
+http://127.0.0.1:8100/currency-conversion-feign/from/USD/to/INR/quantity/50
+http://127.0.0.1:8100/currency-conversion-feign/from/USD/to/PLN/quantity/50
+http://127.0.0.1:8100/currency-conversion-feign/from/EURO/to/PLN/quantity/50
+
+API-GATEWAY 1
+1-currency-exchange
+    http://127.0.0.1:8765/currency-exchange/currency-exchange/from/PLN/to/UZS
+    http://127.0.0.1:8765/currency-exchange/currency-exchange/from/USD/to/INR
+    http://127.0.0.1:8765/currency-exchange/currency-exchange/from/USD/to/PLN
+    http://127.0.0.1:8765/currency-exchange/currency-exchange/from/EURO/to/PLN
+
+2-currency-conversion
+    http://127.0.0.1:8765/currency-conversion/currency-conversion/from/PLN/to/UZS/quantity/50
+    http://127.0.0.1:8765/currency-conversion/currency-conversion/from/USD/to/INR/quantity/50
+    http://127.0.0.1:8765/currency-conversion/currency-conversion/from/USD/to/PLN/quantity/50
+    http://127.0.0.1:8765/currency-conversion/currency-conversion/from/EURO/to/PLN/quantity/50
+
+3-currency-conversion-feign
+http://127.0.0.1:8765/currency-conversion/currency-conversion-feign/from/EURO/to/PLN/quantity/50
+http://127.0.0.1:8765/currency-conversion/currency-conversion-feign/from/USD/to/PLN/quantity/50
+http://127.0.0.1:8765/currency-conversion/currency-conversion-feign/from/USD/to/INR/quantity/50
+http://127.0.0.1:8765/currency-conversion/currency-conversion-feign/from/PLN/to/UZS/quantity/50
+
+API-GATEWAY 2
+1-currency-exchange
+    http://127.0.0.1:8765/currency-exchange/from/PLN/to/UZS
+    http://127.0.0.1:8765/currency-exchange/from/USD/to/INR
+    http://127.0.0.1:8765/currency-exchange/from/USD/to/PLN
+    http://127.0.0.1:8765/currency-exchange/from/EURO/to/PLN
+
+2-currency-conversion
+    http://127.0.0.1:8765/currency-conversion/from/PLN/to/UZS/quantity/50
+    http://127.0.0.1:8765/currency-conversion/from/USD/to/INR/quantity/50
+    http://127.0.0.1:8765/currency-conversion/from/USD/to/PLN/quantity/50
+    http://127.0.0.1:8765/currency-conversion/from/EURO/to/PLN/quantity/50
+
+3-currency-conversion-feign
+http://127.0.0.1:8765/currency-conversion-feign/from/EURO/to/PLN/quantity/50
+http://127.0.0.1:8765/currency-conversion-feign/from/USD/to/PLN/quantity/50
+http://127.0.0.1:8765/currency-conversion-feign/from/USD/to/INR/quantity/50
+http://127.0.0.1:8765/currency-conversion-feign/from/PLN/to/UZS/quantity/50

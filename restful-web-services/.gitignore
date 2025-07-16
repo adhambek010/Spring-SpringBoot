@@ -14,7 +14,7 @@ target/
 .sts4-cache
 
 ### IntelliJ IDEA ###
-.idea
+../spring-microservices-v3-main/02.restful-web-services/.idea
 *.iws
 *.iml
 *.ipr
